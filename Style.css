@@ -1,74 +1,81 @@
 body {
-    background-color: #f0f0f0;
-    color: #333;
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    margin: 0;
-    padding: 0;
+  background-color: #f0f0f0;
+  color: #333;
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  margin: 0;
+  padding: 0;
 }
 
 body {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  /* height: 100vh; */
+}
+
+canvas {
+  border: 1px solid #000; /* optional, just to visualize canvas boundaries */
 }
 
 form {
-    text-align: center;
+  text-align: center;
 }
-  
+
 #text {
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    margin: 10px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin: 10px;
 }
 
-#submit, button {
-    background-color: #007BFF;
-    color: #fff;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    margin: 5px;
+#submit,
+button {
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 5px;
 }
 
-#submit:hover, button:hover {
-    background-color: #5d88b6;
+#submit:hover,
+button:hover {
+  background-color: #5d88b6;
 }
 
 .button-list {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    list-style: none;
-    padding: 0; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  list-style: none;
+  padding: 0;
 }
 
 .button {
-    background-color: #007BFF;
-    color: #fff;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    margin: 5px;
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 5px;
 }
 
-header{
-    background-color: #ccc;
-    color: rgb(43, 43, 43);
-    text-align: center;
-    width: 100%;
+header {
+  background-color: #ccc;
+  color: rgb(43, 43, 43);
+  text-align: center;
+  width: 100%;
 }
 
 @media (max-width: 768px) {
-    body {
-      padding: 10px; 
-    }
-  
-    form {
-      width: 50%;
-    }
+  body {
+    padding: 10px;
+  }
+
+  form {
+    width: 50%;
+  }
 }

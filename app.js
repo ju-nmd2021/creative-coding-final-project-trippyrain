@@ -148,23 +148,23 @@ class App {
     blurFilter.autoFit = true;
 
     const fragSource = `
-          precision mediump float;
-          varying vec2 vTextureCoord;
-          uniform sampler2D uSampler;
-          uniform float threshold;
-          uniform float mr;
-          uniform float mg;
-          uniform float mb;
-          void main(void) {
-              vec4 color = texture2D(uSampler, vTextureCoord);
-              vec3 mcolor = vec3(mr, mg, mb);
-              if (color.a > threshold) {
-                  gl_FragColor = vec4(mcolor, 1.0);
-              } else {
-                  gl_FragColor = vec4(vec3(0.0), 0.0);
-              }
-          }
-      `;
+            precision mediump float;
+            varying vec2 vTextureCoord;
+            uniform sampler2D uSampler;
+            uniform float threshold;
+            uniform float mr;
+            uniform float mg;
+            uniform float mb;
+            void main(void) {
+                vec4 color = texture2D(uSampler, vTextureCoord);
+                vec3 mcolor = vec3(mr, mg, mb);
+                if (color.a > threshold) {
+                    gl_FragColor = vec4(mcolor, 1.0);
+                } else {
+                    gl_FragColor = vec4(vec3(0.0), 0.0);
+                }
+            }
+        `;
 
     const uniformsData = {
       threshold: 0.5,
