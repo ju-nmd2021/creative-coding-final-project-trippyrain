@@ -2,7 +2,8 @@ import { Text } from "./text.js";
 import { Particle } from "./particle.js";
 
 export class Visual {
-  constructor() {
+  constructor(renderer) {
+    this.renderer = renderer;
     this.text = new Text();
 
     this.texture = PIXI.Texture.from("particle-1.png");
@@ -12,7 +13,7 @@ export class Visual {
     this.mouse = {
       x: 0,
       y: 0,
-      radius: 100,
+      radius: 50,
     };
 
     document.addEventListener("pointermove", this.onMove.bind(this), false);
@@ -23,7 +24,7 @@ export class Visual {
       stage.removeChild(this.container);
     }
 
-    this.pos = this.text.setText("Z", 2, stageWidth, stageHeight);
+    this.pos = this.text.setText("Z", 10);
 
     this.container = new PIXI.ParticleContainer(this.pos.length, {
       vertices: false,
@@ -42,6 +43,8 @@ export class Visual {
       this.container.addChild(item.sprite);
       this.particles.push(item);
     }
+
+    console.log(this.particles);
   }
 
   animate() {
@@ -66,7 +69,8 @@ export class Visual {
   }
 
   onMove(e) {
-    this.mouse.x = e.clientX;
-    this.mouse.y = e.clientY;
+    const canvasPos = this.renderer.view.getBoundingClientRect();
+    this.mouse.x = e.clientX - canvasPos.left;
+    this.mouse.y = e.clientY - canvasPos.top;
   }
 }

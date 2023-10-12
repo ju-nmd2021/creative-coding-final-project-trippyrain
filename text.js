@@ -1,42 +1,44 @@
 export class Text {
   constructor() {
     this.canvas = document.createElement("canvas");
-
     this.ctx = this.canvas.getContext("2d");
   }
 
-  setText(str, density, stageWidth, stageHeight) {
-    this.canvas.width = stageWidth;
-    this.canvas.height = stageHeight;
+  setText(str, density) {
+    this.canvas.width = 1000;
+    this.canvas.height = 550;
 
     const myText = str;
     const fontWidth = 700;
-    const fontSize = 800;
+    const fontSize = 600;
     const fontName = "Hind";
 
-    this.ctx.clearRect(0, 0, stageWidth, stageHeight);
+    this.ctx.clearRect(0, 0, 1000, 550);
     this.ctx.font = `${fontWidth} ${fontSize}px ${fontName}`;
-    this.ctx.fillStyle = `rgba(0, 0, 0, 0.3)`;
+    this.ctx.fillStyle = `rgba(0, 0, 0, 1)`;
+
     this.ctx.textBaseline = `middle`;
     const fontPos = this.ctx.measureText(myText);
     this.ctx.fillText(
       myText,
-      (stageWidth - fontPos.width) / 2,
+      (1000 - fontPos.width) / 2,
       fontPos.actualBoundingBoxAscent +
         fontPos.actualBoundingBoxDescent +
-        (stageHeight - fontSize) / 2
+        (550 - fontSize) / 2
     );
-    return this.dotPos(density, stageWidth, stageHeight);
+
+    return this.dotPos(density);
   }
 
-  dotPos(density, stageWidth, stageHeight) {
-    const imageData = this.ctx.getImageData(0, 0, stageWidth, stageHeight).data;
+  dotPos(density) {
+    const imageData = this.ctx.getImageData(0, 0, 1000, 550).data;
     const particles = [];
+    let uniquePixels = new Set();
     let i = 0;
     let width = 0;
     let pixel;
 
-    for (let height = 0; height < stageHeight; height += density) {
+    for (let height = 0; height < 550; height += density) {
       ++i;
       const slide = i % 2 == 0;
       width = 0;
@@ -44,19 +46,24 @@ export class Text {
         width += 6;
       }
 
-      for (width; width < stageWidth; width += density) {
-        pixel = imageData[(width + (height + stageWidth)) * 4 - 1];
+      for (width; width < 1000; width += density) {
+        pixel = imageData[(width + height * 1000) * 4 - 1];
+        uniquePixels.add(pixel);
+
         if (
-          pixel != 0 &&
+          pixel > 20 &&
           width > 0 &&
-          width < stageWidth &&
+          width < 1000 &&
           height > 0 &&
-          height < stageHeight
+          height < 550
         ) {
           particles.push({ x: width, y: height });
         }
       }
     }
+
+    console.log("Unique Pixel Values:", uniquePixels);
+
     return particles;
   }
 }

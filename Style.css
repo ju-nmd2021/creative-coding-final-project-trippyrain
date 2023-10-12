@@ -11,11 +11,17 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  /* height: 100vh; */
+  overflow: hidden;
 }
 
 canvas {
-  border: 1px solid #000; /* optional, just to visualize canvas boundaries */
+  border: 1px solid #000;
+  /* width: 1000px;
+  height: 550px; */
+
+  /* max-width: 1000px;
+  min-height: 550px;
+  max-height: 550px; */
 }
 
 form {

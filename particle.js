@@ -1,5 +1,5 @@
 const FRICTION = 0.98;
-const MOVE_SPEED = 0.2;
+const MOVE_SPEED = 0.6;
 
 export class Particle {
   constructor(pos, texture) {
