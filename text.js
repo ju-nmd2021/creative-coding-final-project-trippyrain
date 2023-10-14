@@ -33,7 +33,6 @@ export class Text {
   dotPos(density) {
     const imageData = this.ctx.getImageData(0, 0, 1000, 550).data;
     const particles = [];
-    let uniquePixels = new Set();
     let i = 0;
     let width = 0;
     let pixel;
@@ -48,7 +47,6 @@ export class Text {
 
       for (width; width < 1000; width += density) {
         pixel = imageData[(width + height * 1000) * 4 - 1];
-        uniquePixels.add(pixel);
 
         if (
           pixel > 20 &&
@@ -61,8 +59,6 @@ export class Text {
         }
       }
     }
-
-    console.log("Unique Pixel Values:", uniquePixels);
 
     return particles;
   }
