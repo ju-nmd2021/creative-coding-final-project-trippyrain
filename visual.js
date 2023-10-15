@@ -16,7 +16,6 @@ export class Visual {
       radius: 50,
     };
 
-    // Create the filters directly in the constructor
     this.blurFilter = new PIXI.filters.BlurFilter();
     this.blurFilter.blur = 10;
     this.blurFilter.autoFit = true;
@@ -48,20 +47,19 @@ export class Visual {
     };
 
     this.thresholdFilter = new PIXI.Filter(null, fragSource, uniformsData);
-
-    document.addEventListener("pointermove", this.onMove.bind(this), false);
   }
 
-  show(stageWidth, stageHeight, stage) {
+  show(stageWidth, stageHeight, stage, text = "Type", offsetX = 0) {
     if (this.container) {
       stage.removeChild(this.container);
     }
 
-    this.pos = this.text.setText("Z4", 2);
+    const result = this.text.setText(text, 2);
+    this.pos = result.particles;
 
     this.container = new PIXI.Container();
+    this.container.x = offsetX;
 
-    // Apply the filters to this specific ParticleContainer instance
     this.container.filters = [this.blurFilter, this.thresholdFilter];
 
     stage.addChild(this.container);
@@ -72,15 +70,16 @@ export class Visual {
       this.container.addChild(item.sprite);
       this.particles.push(item);
     }
-
-    console.log(this.particles);
   }
 
   animate() {
+    const adjustedMouseX = this.mouse.x - this.container.x;
+    const adjustedMouseY = this.mouse.y - this.container.y;
+
     for (let i = 0; i < this.particles.length; i++) {
       const item = this.particles[i];
-      const dx = this.mouse.x - item.x;
-      const dy = this.mouse.y - item.y;
+      const dx = adjustedMouseX - item.x;
+      const dy = adjustedMouseY - item.y;
       const dist = Math.sqrt(dx * dx + dy * dy);
       const minDist = item.radius + this.mouse.radius;
 
@@ -95,12 +94,6 @@ export class Visual {
       }
       item.draw();
     }
-  }
-
-  onMove(e) {
-    const canvasPos = this.renderer.view.getBoundingClientRect();
-    this.mouse.x = e.clientX - canvasPos.left;
-    this.mouse.y = e.clientY - canvasPos.top;
   }
 }
 
@@ -118,16 +111,15 @@ export class Visual2 {
       y: 0,
       radius: 50,
     };
-
-    document.addEventListener("pointermove", this.onMove.bind(this), false);
   }
 
-  show(stageWidth, stageHeight, stage) {
+  show(stageWidth, stageHeight, stage, text = "Type", offsetX = 0) {
     if (this.container) {
       stage.removeChild(this.container);
     }
 
-    this.pos = this.text.setText("Z4", 2);
+    const result = this.text.setText(text, 2);
+    this.pos = result.particles;
 
     this.container = new PIXI.ParticleContainer(this.pos.length, {
       vertices: false,
@@ -138,6 +130,8 @@ export class Visual2 {
       tint: true,
     });
 
+    this.container.x = offsetX;
+
     stage.addChild(this.container);
 
     this.particles = [];
@@ -146,15 +140,16 @@ export class Visual2 {
       this.container.addChild(item.sprite);
       this.particles.push(item);
     }
-
-    console.log(this.particles);
   }
 
   animate() {
+    const adjustedMouseX = this.mouse.x - this.container.x;
+    const adjustedMouseY = this.mouse.y - this.container.y;
+
     for (let i = 0; i < this.particles.length; i++) {
       const item = this.particles[i];
-      const dx = this.mouse.x - item.x;
-      const dy = this.mouse.y - item.y;
+      const dx = adjustedMouseX - item.x;
+      const dy = adjustedMouseY - item.y;
       const dist = Math.sqrt(dx * dx + dy * dy);
       const minDist = item.radius + this.mouse.radius;
 
@@ -170,11 +165,5 @@ export class Visual2 {
       }
       item.draw();
     }
-  }
-
-  onMove(e) {
-    const canvasPos = this.renderer.view.getBoundingClientRect();
-    this.mouse.x = e.clientX - canvasPos.left;
-    this.mouse.y = e.clientY - canvasPos.top;
   }
 }

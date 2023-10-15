@@ -1,10 +1,3 @@
-// function setup() {
-//   createCanvas(1000, 550);
-//   background(220);
-// }
-
-// import { Text } from "./text.js";
-
 import { Visual, Visual2 } from "./visual.js";
 
 class App {
@@ -15,7 +8,6 @@ class App {
       },
       fontactive: () => {
         this.setWebgl();
-        // this.visual = new Visual(this.renderer);
         this.visual = new Visual2(this.renderer);
 
         window.addEventListener("resize", this.resize.bind(this), false);
@@ -24,6 +16,19 @@ class App {
         requestAnimationFrame(this.animate.bind(this));
       },
     });
+
+    const submitBtn = document.getElementById("submit");
+    submitBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      const inputText = document.getElementById("text").value;
+      if (inputText) {
+        this.textToRender = inputText;
+        this.resize();
+      }
+    });
+
+    this.visuals = [];
+    document.addEventListener("pointermove", this.onMove.bind(this), false);
   }
 
   setWebgl() {
@@ -42,17 +47,58 @@ class App {
     this.stage = new PIXI.Container();
   }
 
+  onMove(e) {
+    const canvasPos = this.renderer.view.getBoundingClientRect();
+    const mouseX = e.clientX - canvasPos.left;
+    const mouseY = e.clientY - canvasPos.top;
+
+    for (let visual of this.visuals) {
+      visual.mouse.x = mouseX;
+      visual.mouse.y = mouseY;
+    }
+  }
+
   resize() {
     this.stageWidth = 1000;
     this.stageHeight = 550;
 
-    this.visual.show(this.stageWidth, this.stageHeight, this.stage);
+    while (this.stage.children[0]) {
+      this.stage.removeChild(this.stage.children[0]);
+    }
+
+    const textToRender = this.textToRender || "Type";
+
+    let totalWidth = 0;
+    const widths = [];
+
+    for (let char of textToRender) {
+      const result = this.visual.text.setText(char, 2, 0);
+      totalWidth += result.width;
+      widths.push(result.width);
+    }
+
+    let offsetX = (this.stageWidth - totalWidth) / 2;
+
+    this.visuals = [];
+
+    for (let i = 0; i < textToRender.length; i++) {
+      const char = textToRender[i];
+      const VisualClass = Math.random() > 0.5 ? Visual : Visual2;
+      const visual = new VisualClass(this.renderer);
+
+      this.visuals.push(visual);
+      visual.show(this.stageWidth, this.stageHeight, this.stage, char, offsetX);
+
+      offsetX += widths[i];
+    }
   }
 
   animate(t) {
     requestAnimationFrame(this.animate.bind(this));
 
-    this.visual.animate();
+    for (let visual of this.visuals) {
+      visual.animate();
+    }
 
     this.renderer.render(this.stage);
   }

@@ -1,5 +1,5 @@
 const FRICTION = 0.98;
-const MOVE_SPEED = { 1: 0.6, 2: 0.12 };
+const MOVE_SPEED = { 1: 0.6, 2: 1 };
 const COLOR_SPEED = 0.12;
 
 export class Particle1 {
@@ -36,7 +36,7 @@ export class Particle1 {
 export class Particle2 {
   constructor(pos, texture) {
     this.sprite = new PIXI.Sprite(texture);
-    this.sprite.scale.set(0.3);
+    this.sprite.scale.set(0.06);
 
     this.savedX = pos.x;
     this.savedY = pos.y;
@@ -48,8 +48,8 @@ export class Particle2 {
     this.vy = 0;
     this.radius = 10;
 
-    this.savedRgb = 0x3316e;
-    this.rgb = 0x3316e;
+    this.savedRgb = 0xf3316e;
+    this.rgb = 0xf3316e;
   }
 
   collide() {

@@ -4,30 +4,33 @@ export class Text {
     this.ctx = this.canvas.getContext("2d");
   }
 
-  setText(str, density) {
+  setText(str, density, offsetX = 0) {
     this.canvas.width = 1000;
     this.canvas.height = 550;
 
     const myText = str;
-    const fontWidth = 700;
+    const fontWidth = 400;
     const fontSize = 600;
     const fontName = "Hind";
 
     this.ctx.clearRect(0, 0, 1000, 550);
     this.ctx.font = `${fontWidth} ${fontSize}px ${fontName}`;
     this.ctx.fillStyle = `rgba(0, 0, 0, 1)`;
-
     this.ctx.textBaseline = `middle`;
+
     const fontPos = this.ctx.measureText(myText);
     this.ctx.fillText(
       myText,
-      (1000 - fontPos.width) / 2,
+      offsetX,
       fontPos.actualBoundingBoxAscent +
         fontPos.actualBoundingBoxDescent +
         (550 - fontSize) / 2
     );
 
-    return this.dotPos(density);
+    return {
+      particles: this.dotPos(density),
+      width: fontPos.width,
+    };
   }
 
   dotPos(density) {
