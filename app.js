@@ -1,4 +1,4 @@
-import { Visual, Visual2 } from "./visual.js";
+import { Visual, Visual2, Visual3 } from "./visual.js";
 
 class App {
   constructor() {
@@ -83,7 +83,9 @@ class App {
 
     for (let i = 0; i < textToRender.length; i++) {
       const char = textToRender[i];
-      const VisualClass = Math.random() > 0.5 ? Visual : Visual2;
+      const VisualClasses = [Visual, Visual2, Visual3];
+      const VisualClass =
+        VisualClasses[Math.floor(Math.random() * VisualClasses.length)];
       const visual = new VisualClass(this.renderer);
 
       this.visuals.push(visual);

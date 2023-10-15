@@ -1,5 +1,7 @@
-const FRICTION = 0.98;
-const MOVE_SPEED = { 1: 0.6, 2: 1 };
+import { RANDOM_TEXT } from "./visual.js";
+
+const FRICTION = { 1: 0.98, 2: 0.86 };
+const MOVE_SPEED = { 1: 0.6, 2: 1, 3: 0.03 };
 const COLOR_SPEED = 0.12;
 
 export class Particle1 {
@@ -22,8 +24,8 @@ export class Particle1 {
     this.x += (this.savedX - this.x) * MOVE_SPEED[1];
     this.y += (this.savedY - this.y) * MOVE_SPEED[1];
 
-    this.vx *= FRICTION;
-    this.vy *= FRICTION;
+    this.vx *= FRICTION[1];
+    this.vy *= FRICTION[1];
 
     this.x += this.vx;
     this.y += this.vy;
@@ -62,8 +64,8 @@ export class Particle2 {
     this.x += (this.savedX - this.x) * MOVE_SPEED[2];
     this.y += (this.savedY - this.y) * MOVE_SPEED[2];
 
-    this.vx *= FRICTION;
-    this.vy *= FRICTION;
+    this.vx *= FRICTION[1];
+    this.vy *= FRICTION[1];
 
     this.x += this.vx;
     this.y += this.vy;
@@ -71,5 +73,62 @@ export class Particle2 {
     this.sprite.x = this.x;
     this.sprite.y = this.y;
     this.sprite.tint = this.rgb;
+  }
+}
+
+export class Particle3 {
+  constructor(pos) {
+    this.textArr = RANDOM_TEXT.split("");
+    this.shuffleText();
+
+    this.textSprite = new PIXI.Text(this.currentChar, {
+      fontFamily: "Arial",
+      fontSize: 18,
+      fill: 0xff0000,
+      align: "center",
+    });
+
+    this.savedX = pos.x;
+    this.savedY = pos.y;
+    this.x = pos.x;
+    this.y = pos.y;
+    this.textSprite.x = this.x;
+    this.textSprite.y = this.y;
+    this.vx = 0;
+    this.vy = 0;
+    this.radius = 10;
+
+    this.savedRgb = 0x000000;
+    this.rgb = this.savedRgb;
+  }
+
+  collide() {
+    this.shuffleText();
+    this.textSprite.text = this.currentChar;
+  }
+
+  shuffleText() {
+    this.currentChar = this.textArr.splice(
+      Math.floor(Math.random() * this.textArr.length),
+      1
+    )[0];
+    if (!this.textArr.length) this.textArr = RANDOM_TEXT.split("");
+  }
+
+  draw() {
+    this.rgb += (this.savedRgb - this.rgb) * COLOR_SPEED;
+
+    this.vx *= FRICTION[2];
+    this.vy *= FRICTION[2];
+
+    this.vx += (this.savedX - this.x) * MOVE_SPEED[3];
+    this.vy += (this.savedY - this.y) * MOVE_SPEED[3];
+
+    this.x += this.vx;
+    this.y += this.vy;
+
+    this.textSprite.x = this.x;
+    this.textSprite.y = this.y;
+    this.textSprite.tint = this.rgb;
   }
 }
