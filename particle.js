@@ -132,3 +132,52 @@ export class Particle3 {
     this.textSprite.tint = this.rgb;
   }
 }
+
+export class Particle4 {
+  constructor(pos) {
+    this.sprite = new PIXI.Graphics();
+    this.color = (Math.random() * 0xffffff) & 0xffffcc;
+
+    this.radius = Math.random() * 20 + 5;
+    this.maxRadius = this.radius;
+    this.minRadius = 0;
+    this.shrinkSpeed = 1.5;
+    this.growSpeed = 0.2;
+
+    this.savedX = pos.x;
+    this.savedY = pos.y;
+    this.x = this.savedX;
+    this.y = this.savedY;
+
+    this.hovered = false;
+
+    this.sprite.alpha = 0.7;
+
+    this.blurFilter = new PIXI.filters.BlurFilter();
+    this.blurFilter.blur = 1;
+    this.sprite.filters = [this.blurFilter];
+  }
+
+  draw() {
+    if (this.hovered) {
+      this.radius -= this.shrinkSpeed;
+      if (this.radius < this.minRadius) {
+        this.radius = this.minRadius;
+      }
+    } else {
+      this.radius += this.growSpeed;
+      if (this.radius > this.maxRadius) {
+        this.radius = this.maxRadius;
+      }
+    }
+
+    this.sprite.clear();
+    this.sprite.beginFill(this.color);
+    this.sprite.drawCircle(this.x, this.y, this.radius);
+    this.sprite.endFill();
+  }
+
+  setHovered(hoverState) {
+    this.hovered = hoverState;
+  }
+}

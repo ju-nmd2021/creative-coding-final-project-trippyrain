@@ -1,9 +1,9 @@
 import { Text } from "./text.js";
-import { Particle1, Particle2, Particle3 } from "./particle.js";
+import { Particle1, Particle2, Particle3, Particle4 } from "./particle.js";
 
 export const RANDOM_TEXT = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
-export class Visual {
+export class Visual1 {
   constructor(renderer) {
     this.renderer = renderer;
     this.text = new Text();
@@ -230,6 +230,56 @@ export class Visual3 {
       for (let i = 0; i < this.particles.length; i++) {
         this.particles[i].collide();
       }
+    }
+  }
+}
+
+export class Visual4 {
+  constructor(renderer) {
+    this.renderer = renderer;
+    this.text = new Text();
+
+    this.particles = [];
+    this.mouse = {
+      x: 0,
+      y: 0,
+      radius: 50,
+    };
+  }
+
+  show(stageWidth, stageHeight, stage, text = "Type", offsetX = 0) {
+    if (this.container) {
+      stage.removeChild(this.container);
+    }
+
+    const result = this.text.setText(text, 18);
+    this.pos = result.particles;
+
+    this.container = new PIXI.Container();
+    this.container.x = offsetX;
+    stage.addChild(this.container);
+
+    this.particles = [];
+    for (let i = 0; i < this.pos.length; i++) {
+      const item = new Particle4(this.pos[i]);
+      this.container.addChild(item.sprite);
+      this.particles.push(item);
+    }
+  }
+
+  animate() {
+    const adjustedMouseX = this.mouse.x - this.container.x;
+    const adjustedMouseY = this.mouse.y - this.container.y;
+
+    for (let i = 0; i < this.particles.length; i++) {
+      const item = this.particles[i];
+      const dx = adjustedMouseX - item.x;
+      const dy = adjustedMouseY - item.y;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      const minDist = item.radius + this.mouse.radius;
+
+      item.setHovered(dist < minDist);
+      item.draw();
     }
   }
 }
