@@ -141,7 +141,7 @@ export class Particle4 {
     this.radius = Math.random() * 20 + 5;
     this.maxRadius = this.radius;
     this.minRadius = 0;
-    this.shrinkSpeed = 1.5;
+    this.shrinkSpeed = 10;
     this.growSpeed = 0.2;
 
     this.savedX = pos.x;

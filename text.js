@@ -1,3 +1,5 @@
+import { charactersArray } from "./app.js";
+
 export class Text {
   constructor() {
     this.canvas = document.createElement("canvas");
@@ -9,8 +11,11 @@ export class Text {
     this.canvas.height = 550;
 
     const myText = str;
+
+    const arrayLength = charactersArray.length;
+    const fontSize = this.calculateFontSize(arrayLength); // Using the new method to get font size
+
     const fontWidth = 400;
-    const fontSize = 600;
     const fontName = "Hind";
 
     this.ctx.clearRect(0, 0, 1000, 550);
@@ -31,6 +36,20 @@ export class Text {
       particles: this.dotPos(density),
       width: fontPos.width,
     };
+  }
+
+  calculateFontSize(length) {
+    if (length <= 3) {
+      return 550;
+    } else if (length == 4) {
+      return 450;
+    } else if (length == 5) {
+      return 350;
+    } else if (length == 6) {
+      return 250;
+    } else if (length >= 7) {
+      return 200;
+    }
   }
 
   dotPos(density) {

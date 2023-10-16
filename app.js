@@ -1,3 +1,5 @@
+export let charactersArray = [];
+
 import { Visual1, Visual2, Visual3, Visual4 } from "./visual.js";
 
 class App {
@@ -23,6 +25,7 @@ class App {
       const inputText = document.getElementById("text").value;
       if (inputText) {
         this.textToRender = inputText;
+        charactersArray = [...inputText];
         this.resize();
       }
     });
@@ -86,7 +89,6 @@ class App {
       const VisualClasses = [Visual1, Visual2, Visual3, Visual4];
       const VisualClass =
         VisualClasses[Math.floor(Math.random() * VisualClasses.length)];
-
       const visual = new VisualClass(this.renderer);
 
       this.visuals.push(visual);

@@ -3,6 +3,27 @@ import { Particle1, Particle2, Particle3, Particle4 } from "./particle.js";
 
 export const RANDOM_TEXT = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
+// export function calculateRadius() {
+//   const length = charactersArray.length;
+//   if (length <= 3) {
+//     return 50;
+//   } else if (length == 4) {
+//     return 40;
+//   } else if (length == 5) {
+//     return 30;
+//   } else if (length == 6) {
+//     return 20;
+//   } else if (length >= 7) {
+//     return 10;
+//   }
+// }
+
+const globalMouse = {
+  x: 0,
+  y: 0,
+  radius: 50,
+};
+
 export class Visual1 {
   constructor(renderer) {
     this.renderer = renderer;
@@ -13,9 +34,9 @@ export class Visual1 {
     this.particles = [];
 
     this.mouse = {
-      x: 0,
-      y: 0,
-      radius: 50,
+      x: globalMouse.x,
+      y: globalMouse.y,
+      radius: globalMouse.radius,
     };
 
     this.blurFilter = new PIXI.filters.BlurFilter();
@@ -109,9 +130,9 @@ export class Visual2 {
     this.particles = [];
 
     this.mouse = {
-      x: 0,
-      y: 0,
-      radius: 50,
+      x: globalMouse.x,
+      y: globalMouse.y,
+      radius: globalMouse.radius,
     };
   }
 
@@ -176,9 +197,9 @@ export class Visual3 {
     this.text = new Text();
     this.particles = [];
     this.mouse = {
-      x: 0,
-      y: 0,
-      radius: 50,
+      x: globalMouse.x,
+      y: globalMouse.y,
+      radius: globalMouse.radius,
     };
   }
 
@@ -241,9 +262,9 @@ export class Visual4 {
 
     this.particles = [];
     this.mouse = {
-      x: 0,
-      y: 0,
-      radius: 50,
+      x: globalMouse.x,
+      y: globalMouse.y,
+      radius: globalMouse.radius,
     };
   }
 
