@@ -13,7 +13,7 @@ export class Text {
     const myText = str;
 
     const arrayLength = charactersArray.length;
-    const fontSize = this.calculateFontSize(arrayLength); // Using the new method to get font size
+    const fontSize = this.calculateFontSize(arrayLength);
 
     const fontWidth = 400;
     const fontName = "Hind";
@@ -42,13 +42,13 @@ export class Text {
     if (length <= 3) {
       return 550;
     } else if (length == 4) {
-      return 450;
+      return 500;
     } else if (length == 5) {
       return 350;
     } else if (length == 6) {
-      return 250;
+      return 275;
     } else if (length >= 7) {
-      return 200;
+      return 225;
     }
   }
 

@@ -1,24 +1,24 @@
 import { Text } from "./text.js";
+import { getColorFromSeconds, fixedCurrentTime } from "./particle.js";
 import { Particle1, Particle2, Particle3, Particle4 } from "./particle.js";
 
 export const RANDOM_TEXT = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
-// export function calculateRadius() {
-//   const length = charactersArray.length;
-//   if (length <= 3) {
-//     return 50;
-//   } else if (length == 4) {
-//     return 40;
-//   } else if (length == 5) {
-//     return 30;
-//   } else if (length == 6) {
-//     return 20;
-//   } else if (length >= 7) {
-//     return 10;
-//   }
-// }
+export function calculateRadius(length) {
+  if (length <= 3) {
+    return 50;
+  } else if (length == 4) {
+    return 40;
+  } else if (length == 5) {
+    return 30;
+  } else if (length == 6) {
+    return 20;
+  } else if (length >= 7) {
+    return 10;
+  }
+}
 
-const globalMouse = {
+export const globalMouse = {
   x: 0,
   y: 0,
   radius: 50,
@@ -62,13 +62,15 @@ export class Visual1 {
         }
     `;
 
+    const color = getColorFromSeconds(fixedCurrentTime.second);
+    const rgbColor = PIXI.utils.hex2rgb(color);
+
     const uniformsData = {
       threshold: 0.5,
-      mr: 0.0 / 255.0,
-      mg: 0.0 / 255.0,
-      mb: 0.0 / 255.0,
+      mr: rgbColor[0],
+      mg: rgbColor[1],
+      mb: rgbColor[2],
     };
-
     this.thresholdFilter = new PIXI.Filter(null, fragSource, uniformsData);
   }
 

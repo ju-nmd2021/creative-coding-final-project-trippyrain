@@ -4,6 +4,51 @@ const FRICTION = { 1: 0.98, 2: 0.86 };
 const MOVE_SPEED = { 1: 0.6, 2: 1, 3: 0.03 };
 const COLOR_SPEED = 0.12;
 
+let currentTemperature = null;
+
+export let fixedCurrentTemperature = null;
+
+let currentHour = null;
+let currentMinute = null;
+let currentSecond = null;
+
+export let fixedCurrentTime = {
+  hour: currentHour,
+  minute: currentMinute,
+  second: currentSecond,
+};
+
+export async function fetchData() {
+  const endpoint = `https://api.openweathermap.org/data/2.5/weather?lat=57.7826&lon=14.1618&appid=da6c34a8051db23e58cdd1f256fed9e1&units=metric`;
+  try {
+    const response = await fetch(endpoint);
+    const data = await response.json();
+
+    currentTemperature = data.main.temp;
+    fixedCurrentTemperature = currentTemperature;
+
+    const date = new Date();
+    currentHour = date.getHours();
+    currentMinute = date.getMinutes();
+    currentSecond = date.getSeconds();
+
+    fixedCurrentTime.hour = currentHour;
+    fixedCurrentTime.minute = currentMinute;
+    fixedCurrentTime.second = currentSecond;
+  } catch (error) {
+    console.error("Error fetching weather data: ", error);
+  }
+}
+
+export function getColorFromSeconds(seconds) {
+  const hue = (seconds / 60) * 360;
+  return PIXI.utils.rgb2hex([
+    Math.sin(hue),
+    Math.sin(hue + (2 * Math.PI) / 3),
+    Math.sin(hue + (4 * Math.PI) / 3),
+  ]);
+}
+
 export class Particle1 {
   constructor(pos, texture) {
     this.sprite = new PIXI.Sprite(texture);
@@ -50,7 +95,7 @@ export class Particle2 {
     this.vy = 0;
     this.radius = 10;
 
-    this.savedRgb = 0xf3316e;
+    this.savedRgb = getColorFromSeconds(fixedCurrentTime.second);
     this.rgb = 0xf3316e;
   }
 
@@ -98,7 +143,7 @@ export class Particle3 {
     this.vy = 0;
     this.radius = 10;
 
-    this.savedRgb = 0x000000;
+    this.savedRgb = getColorFromSeconds(fixedCurrentTime.second);
     this.rgb = this.savedRgb;
   }
 
@@ -136,7 +181,10 @@ export class Particle3 {
 export class Particle4 {
   constructor(pos) {
     this.sprite = new PIXI.Graphics();
-    this.color = (Math.random() * 0xffffff) & 0xffffcc;
+    this.color =
+      (getColorFromSeconds(fixedCurrentTime.second) *
+        (0.5 + Math.random() * 0.5)) &
+      0xffffff;
 
     this.radius = Math.random() * 20 + 5;
     this.maxRadius = this.radius;
