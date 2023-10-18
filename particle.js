@@ -190,7 +190,7 @@ export class Particle4 {
     this.maxRadius = this.radius;
     this.minRadius = 0;
     this.shrinkSpeed = 10;
-    this.growSpeed = 0.2;
+    this.growSpeed = 0.1;
 
     this.savedX = pos.x;
     this.savedY = pos.y;

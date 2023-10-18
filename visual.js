@@ -110,12 +110,13 @@ export class Visual1 {
 
       if (dist < minDist) {
         const angle = Math.atan2(dy, dx);
-        const tx = item.x + Math.cos(angle) + minDist;
-        const ty = item.x + Math.sign(angle) + minDist;
-        const ax = tx - this.mouse.x;
-        const ay = ty - this.mouse.y;
-        item.vx -= ax;
-        item.vy -= ay;
+        const tx = item.x - Math.cos(angle) * minDist;
+        const ty = item.y - Math.sin(angle) * minDist;
+        const ax = tx - item.x;
+        const ay = ty - item.y;
+
+        item.vx += ax;
+        item.vy += ay;
       }
       item.draw();
     }
@@ -180,12 +181,13 @@ export class Visual2 {
 
       if (dist < minDist) {
         const angle = Math.atan2(dy, dx);
-        const tx = item.x + Math.cos(angle) + minDist;
-        const ty = item.x + Math.sign(angle) + minDist;
-        const ax = tx - this.mouse.x;
-        const ay = ty - this.mouse.y;
-        item.vx -= ax;
-        item.vy -= ay;
+        const tx = item.x - Math.cos(angle) * minDist;
+        const ty = item.y - Math.sin(angle) * minDist;
+        const ax = tx - item.x;
+        const ay = ty - item.y;
+
+        item.vx += ax;
+        item.vy += ay;
         item.collide();
       }
       item.draw();
@@ -238,12 +240,13 @@ export class Visual3 {
 
       if (dist < minDist) {
         const angle = Math.atan2(dy, dx);
-        const tx = item.x + Math.cos(angle) * minDist;
-        const ty = item.y + Math.sin(angle) * minDist;
-        const ax = tx - this.mouse.x;
-        const ay = ty - this.mouse.y;
-        item.vx -= ax;
-        item.vy -= ay;
+        const tx = item.x - Math.cos(angle) * minDist;
+        const ty = item.y - Math.sin(angle) * minDist;
+        const ax = tx - item.x;
+        const ay = ty - item.y;
+
+        item.vx += ax;
+        item.vy += ay;
         item.collide();
       }
       item.draw();

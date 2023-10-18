@@ -32,11 +32,43 @@ class App {
         charactersArray = [...inputText];
         globalMouse.radius = calculateRadius(charactersArray.length);
         this.resize();
+
+        this.adjustBackgroundColor();
       }
     });
 
     this.visuals = [];
     document.addEventListener("pointermove", this.onMove.bind(this), false);
+    const regenerateBtn = document.getElementById("regenerate");
+    regenerateBtn.addEventListener("click", this.regenerate.bind(this));
+  }
+
+  regenerate() {
+    const submitBtn = document.getElementById("submit");
+    submitBtn.click();
+
+    setTimeout(() => {
+      this.adjustBackgroundColorBasedOnArt();
+    }, 100);
+  }
+
+  adjustBackgroundColorBasedOnArt() {
+    const rEffecting = 0.5 + (charactersArray.length % 50) / 100;
+
+    const lastVisual = this.visuals[this.visuals.length - 1];
+    const visualTypeEffect =
+      lastVisual instanceof Visual1
+        ? 0.5
+        : lastVisual instanceof Visual2
+        ? 0.8
+        : lastVisual instanceof Visual3
+        ? 1.1
+        : 1.4;
+    const gEffecting = visualTypeEffect;
+
+    const bEffecting = fixedCurrentTemperature <= 0 ? 1.5 : 1;
+
+    this.adjustBackgroundColor(rEffecting, gEffecting, bEffecting);
   }
 
   async setupApp() {
@@ -63,16 +95,21 @@ class App {
     requestAnimationFrame(this.animate.bind(this));
   }
 
-  adjustBackgroundColor() {
+  adjustBackgroundColor(rEffecting = 1, gEffecting = 1, bEffecting = 1) {
     const morningColor = { r: 1, g: 0.5, b: 0 };
     const nightColor = { r: 0, g: 0.5, b: 1 };
 
     const timeFactor =
       (fixedCurrentTime.hour * 60 + fixedCurrentTime.minute) / (24 * 60);
-    const r = (1 - timeFactor) * morningColor.r + timeFactor * nightColor.r;
-    const g = (1 - timeFactor) * morningColor.g + timeFactor * nightColor.g;
-    const b = (1 - timeFactor) * morningColor.b + timeFactor * nightColor.b;
-
+    const r =
+      ((1 - timeFactor) * morningColor.r + timeFactor * nightColor.r) *
+      rEffecting;
+    const g =
+      ((1 - timeFactor) * morningColor.g + timeFactor * nightColor.g) *
+      gEffecting;
+    const b =
+      ((1 - timeFactor) * morningColor.b + timeFactor * nightColor.b) *
+      bEffecting;
     const temperatureFactor = fixedCurrentTemperature <= 0 ? 1.5 : 1;
     const backgroundColor = PIXI.utils.rgb2hex([
       r * temperatureFactor,
