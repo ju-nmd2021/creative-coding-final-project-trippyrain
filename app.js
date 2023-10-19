@@ -1,3 +1,25 @@
+//Used references and tutorotials for the code
+
+//used for App, Text, Particle and visual structure
+//" https://www.youtube.com/watch?v=HMQ9fEX28fk "
+//" https://www.youtube.com/watch?v=pJJQZvS9VNI "
+//" https://www.youtube.com/watch?v=YjSwj65I-zg "
+//" https://www.youtube.com/watch?v=tTr1JML4dls "
+
+//Used for basics understanding of Pixi
+//" https://www.youtube.com/watch?v=eKsTVZKMeuI "
+//" https://www.youtube.com/watch?v=GuY_PROTr0I "
+//" https://pixijs.com/tutorial#2 "
+//" https://pixijs.com/guides/components/sprites "
+//" https://pixijs.com/guides/components/graphics "
+//" https://pixijs.com/guides/components/textures "
+
+//Fetching from Weather Map API
+//" https://www.youtube.com/watch?v=Mc1w6Q-nxzM "
+
+//Fetching PC time
+//" https://tecadmin.net/get-current-date-time-javascript/#:~:text=Current%20Time%20in%20JavaScript,%3Ai%3As%E2%80%9D%20format.&text=2-,var%20today%20%3D%20new%20Date()%3B,)%20%2B%20%22%3A%22%20%2B%20today "
+
 import {
   fetchData,
   fixedCurrentTemperature,
